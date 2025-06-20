@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game 1 - Collect the Symbols</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(8, 80px);
+            grid-template-rows: repeat(8, 80px);
+            gap: 2px;
+            margin-top: 20px;
+        }
+
+        .cell {
+            width: 80px;
+            height: 80px;
+            background-color: #111;
+            color: #0f0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+            text-align: center;
+            overflow: hidden;
+            word-break: break-word;
+        }
+
+        .avatar {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .collected {
+            background-color: #333;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body class="terminal">
+    <div class="container">
+        <h1>> Game 1: Collect All Code Symbols 🧩</h1>
+        <p>> Use arrow keys to move the avatar 🧑‍💻</p>
+        <p id="status">Collected: 0 / 10</p>
+        <div class="grid" id="gameGrid"></div>
+    </div>
+
+    <script>
+        const gridSize = 8;
+        const totalSymbols = 10;
+        const grid = document.getElementById("gameGrid");
+        const status = document.getElementById("status");
+
+        const symbols = [";", "{", "}", "()", "while", "return", "printf", "=>", "===", "<div>"];
+        let collected = 0;
+
+        let avatarX = 0;
+        let avatarY = 0;
+
+        // 2D array to hold the cell elements
+        const cells = [];
+
+        // Place the grid
+        for (let y = 0; y < gridSize; y++) {
+            cells[y] = [];
+            for (let x = 0; x < gridSize; x++) {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+                grid.appendChild(cell);
+                cells[y][x] = cell;
+            }
+        }
+
+        // Place avatar
+        function drawAvatar() {
+            // Remove all old avatar icons
+            for (let y = 0; y < gridSize; y++) {
+                for (let x = 0; x < gridSize; x++) {
+                    const cell = cells[y][x];
+                    if (cell.classList.contains("avatar")) {
+                        cell.classList.remove("avatar");
+                        // Clear avatar emoji but keep symbol text if it's a symbol
+                        const isSymbolHere = symbolPositions.find(pos => pos.x === x && pos.y === y);
+                        cell.innerText = isSymbolHere ? isSymbolHere.symbol : "";
+                    }
+                }
+            }
+
+            // Draw new avatar
+            const avatarCell = cells[avatarY][avatarX];
+            avatarCell.classList.add('avatar');
+            avatarCell.innerText = "🧑‍💻";
+        }
+
+
+        // Randomly place symbols
+        let symbolPositions = [];
+        function placeSymbols() {
+            while (symbolPositions.length < totalSymbols) {
+                const x = Math.floor(Math.random() * gridSize);
+                const y = Math.floor(Math.random() * gridSize);
+
+                if ((x !== avatarX || y !== avatarY) && !symbolPositions.find(pos => pos.x === x && pos.y === y)) {
+                    const cell = cells[y][x];
+                    const symbol = symbols[symbolPositions.length];
+                    cell.innerText = symbol;
+                    symbolPositions.push({ x, y, symbol });
+                }
+            }
+        }
+
+        // Movement logic
+        document.addEventListener("keydown", e => {
+            let moved = false;
+
+            if (e.key === "ArrowUp" && avatarY > 0) {
+                avatarY--; moved = true;
+            }
+            if (e.key === "ArrowDown" && avatarY < gridSize - 1) {
+                avatarY++; moved = true;
+            }
+            if (e.key === "ArrowLeft" && avatarX > 0) {
+                avatarX--; moved = true;
+            }
+            if (e.key === "ArrowRight" && avatarX < gridSize - 1) {
+                avatarX++; moved = true;
+            }
+
+            if (moved) {
+                checkSymbolCollection();
+                drawAvatar();
+            }
+        });
+
+        // Check collection
+        function checkSymbolCollection() {
+            const found = symbolPositions.find(pos => pos.x === avatarX && pos.y === avatarY);
+            if (found) {
+                const cell = cells[avatarY][avatarX];
+                cell.innerText = ""; // remove symbol
+                cell.classList.add("collected");
+                collected++;
+                symbolPositions = symbolPositions.filter(pos => !(pos.x === avatarX && pos.y === avatarY));
+                status.innerText = `Collected: ${collected} / ${totalSymbols}`;
+
+                if (collected === totalSymbols) {
+                    status.innerText = "> All symbols collected! Moving to next game...";
+                    setTimeout(() => {
+                        window.location.href = "game2.html"; // we'll make this next
+                    }, 2000);
+                }
+            }
+        }
+
+        // Initialize
+        placeSymbols();
+        drawAvatar();
+    </script>
+</body>
+
+</html>

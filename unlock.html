@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unlock the Surprise</title>
+    <link rel="stylesheet" href="style/main.css" />
+</head>
+
+<body class="terminal">
+    <div class="container">
+        <h1>> Enter the secret binary code to unlock_</h1>
+        <p>> Decode this binary code:</p>
+        <pre id="binaryDisplay">01110011 01100001 01101110 01100011 01101000 01100001 01101110</pre>
+        <p>> Hint: Use a binary to text converter online.</p>
+
+        <input type="text" id="binaryInput" placeholder="Type decoded word..." />
+        <button onclick="checkCode()">Unlock 🔓</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function binaryToText(binary) {
+            return binary
+                .split(" ")
+                .map(bin => String.fromCharCode(parseInt(bin, 2)))
+                .join("");
+        }
+
+        function checkCode() {
+            const input = document.getElementById("binaryInput").value.trim().toLowerCase();
+
+            if (input === "sanchan") {
+                document.getElementById("message").innerHTML = "> Access granted. Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "game.html";
+                }, 2000);
+            } else {
+                document.getElementById("message").innerHTML = "> Access denied. Try again.";
+            }
+        }
+    </script>
+</body>
+
+</html>
