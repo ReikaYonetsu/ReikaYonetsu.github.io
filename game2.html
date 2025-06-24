@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game 2 - Reorder Code</title>
+  <link rel="stylesheet" href="style/main.css" />
+  <style>
+    .puzzle-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .code-piece {
+      background: #0f0;
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-family: monospace;
+      cursor: grab;
+    }
+
+    #output {
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 18px;
+      color: #0f0;
+    }
+  </style>
+</head>
+<body class="terminal">
+  <div class="container">
+    <h1>> Game 2: Reorder the Code 🧠</h1>
+    <p>> Drag the pieces into the correct order and press Run</p>
+
+    <div class="puzzle-container" id="codePieces" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+    <button onclick="runCode()">Run ▶️</button>
+    <p id="output"></p>
+  </div>
+
+  <script>
+    const correctOrder = ['printf', '(', '"Hello,', 'Sanchan! 🎉"', ')', ';'];
+
+    const pieces = [...correctOrder].sort(() => Math.random() - 0.5); // shuffle
+    const container = document.getElementById("codePieces");
+
+    pieces.forEach((text, index) => {
+      const div = document.createElement("div");
+      div.className = "code-piece";
+      div.draggable = true;
+      div.id = `piece-${index}`;
+      div.innerText = text;
+      div.addEventListener("dragstart", drag);
+      container.appendChild(div);
+    });
+
+    function drag(event) {
+      event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+      const draggedId = event.dataTransfer.getData("text");
+      const target = event.target;
+
+      const dragged = document.getElementById(draggedId);
+      if (target.classList.contains("code-piece")) {
+        // Swap dragged and target
+        const draggedText = dragged.innerText;
+        dragged.innerText = target.innerText;
+        target.innerText = draggedText;
+      }
+    }
+
+    function runCode() {
+      const current = Array.from(document.getElementsByClassName("code-piece")).map(div => div.innerText);
+      const output = document.getElementById("output");
+
+      if (JSON.stringify(current) === JSON.stringify(correctOrder)) {
+        output.innerText = 'Output: Hello, Sanchan! 🎉';
+        setTimeout(() => {
+          window.location.href = "game3.html"; // Next game
+        }, 2000);
+      } else {
+        output.innerText = 'Error: Output mismatch. Try again.';
+      }
+    }
+  </script>
+</body>
+</html>
