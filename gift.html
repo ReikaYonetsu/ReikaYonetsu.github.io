@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gift Location 🎁</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body.pokemon {
+            background-color: #fce570;
+            color: #d62828;
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .gift-message {
+            font-size: 18px;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 4px dashed #2a9d8f;
+            background: #ffffff;
+            border-radius: 20px;
+            color: #000;
+        }
+
+        img {
+            max-width: 250px;
+            margin: 20px;
+        }
+
+        .spin {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #1d3557;
+            margin-top: 20px;
+        }
+
+        .ps {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .restart-btn {
+            margin-top: 40px;
+            padding: 15px 30px;
+            font-size: 16px;
+            background: #2a9d8f;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .restart-btn:hover {
+            background: #21867a;
+        }
+    </style>
+</head>
+
+<body class="pokemon">
+    <audio id="bgm" loop>
+        <source src="style/pokemon-title.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+
+
+
+    <button class="restart-btn" onclick="startMusic()">🎵 Play Music</button>
+
+
+    <img src="style/pokeball.png" alt="Pokéball" class="spin" />
+    <h1>🎁 Gift Revealed! 🎁</h1>
+
+    <div class="gift-message">
+        <p>Search behind the bookshelf,</p>
+        <p>under your hoodie... 🧥</p>
+        <p>…You’ll find your real-world surprise from your trainer 💛</p>
+    </div>
+
+    <img src="style/psyduck.png" alt="Psyduck" />
+    <div class="ps">
+        Psyduck’s headache helped you find love.
+        <br>Mission complete! 💫
+    </div>
+
+    <button class="restart-btn" onclick="location.href='index.html'">🔁 Restart Adventure</button>
+
+    <script>
+        // confetti explosion
+        setTimeout(() => {
+            confetti({
+                particleCount: 200,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+        }, 800);
+
+        function startMusic() {
+            document.getElementById('bgm').play();
+        }
+
+    </script>
+</body>
+
+</html>

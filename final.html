@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final Surprise 🎂</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <style>
+        .cake {
+            font-size: 80px;
+            animation: popIn 1.5s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.5);
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .code-block {
+            background-color: #111;
+            padding: 20px 30px 20px 10px;
+            border-radius: 10px;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 30px;
+            font-size: 16px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            text-align: left;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        .gift-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .gift-btn:hover {
+            background-color: #0c0;
+        }
+    </style>
+</head>
+
+<body class="terminal">
+    <div class="container" style="text-align: center;">
+        <div class="cake" id="cake">🎂🎂🎂</div>
+
+        <pre class="code-block">
+         int main() {
+             while (love) {
+                celebrate();
+                printf("Happy Birthday, Sanchan ! ❤️\n");
+             }
+             return 0;
+        }
+        </pre>
+
+
+        <button class="gift-btn" onclick="goToGift()">Fancy some gifts? 🎁</button>
+    </div>
+
+    <script>
+        function goToGift() {
+            window.location.href = "gift.html";
+        }
+    </script>
+</body>
+
+</html>
