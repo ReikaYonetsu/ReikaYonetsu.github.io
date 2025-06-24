@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game 3 - Quiz</title>
+  <link rel="stylesheet" href="style/main.css" />
+  <style>
+    .quiz-question {
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body class="terminal">
+  <div class="container">
+    <h1>> Game 3: Final Programming Quiz 🧠</h1>
+
+    <!-- Q1 -->
+    <div class="quiz-question">
+      <p>> 1. What is the output of this code?</p>
+      <pre>printf("I love _");</pre>
+      <input type="text" id="q1" placeholder="Type your answer..." />
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question">
+      <p>> 2. What will happen if cake is "delicious"?</p>
+      <pre>
+if (cake == "delicious"){
+   eat(cake);
+}
+      </pre>
+      <label><input type="radio" name="q2" value="A" /> A. the cake is thrown away</label>
+      <label><input type="radio" name="q2" value="B" /> B. the cake is eaten</label>
+      <label><input type="radio" name="q2" value="C" /> C. Syntax error</label>
+      <label><input type="radio" name="q2" value="D" /> D. Nothing happens</label>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question">
+      <p>> 3. What does this loop do?</p>
+      <pre>
+while (true){
+   love++;
+}
+      </pre>
+      <label><input type="radio" name="q3" value="A" /> A. Crashes</label>
+      <label><input type="radio" name="q3" value="B" /> B. Loops forever and love grows infinitely</label>
+      <label><input type="radio" name="q3" value="C" /> C. Breaks</label>
+      <label><input type="radio" name="q3" value="D" /> D. Gives an error</label>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question">
+      <p>> 4. What happens when Psyduck’s headache reaches 10?</p>
+      <pre>
+int headache = 10;
+if (headache >= 10){
+   printf("Psyduck uses confusion");
+}
+      </pre>
+      <label><input type="radio" name="q4" value="A" /> A. it takes a nap</label>
+      <label><input type="radio" name="q4" value="B" /> B. Uses confusion</label>
+      <label><input type="radio" name="q4" value="C" /> C. faints</label>
+      <label><input type="radio" name="q4" value="D" /> D. Evolves</label>
+    </div>
+
+    <button onclick="checkQuiz()">Submit Answers ✔️</button>
+  </div>
+
+  <script>
+    function checkQuiz() {
+      const q1 = document.getElementById("q1").value.trim().toLowerCase();
+      const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+      const q3 = document.querySelector('input[name="q3"]:checked')?.value;
+      const q4 = document.querySelector('input[name="q4"]:checked')?.value;
+
+      if (
+        (q1 === "you" || q1 === "sanchan" || q1 === "reichan") &&
+        q2 === "B" &&
+        q3 === "B" &&
+        q4 === "B"
+      ) {
+        window.location.href = "final.html";
+      } else {
+        alert("Oops! One or more answers are wrong. Try again!");
+      }
+    }
+  </script>
+</body>
+</html>
