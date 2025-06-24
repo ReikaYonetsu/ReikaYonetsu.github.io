@@ -1,93 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Game 2 - Reorder Code</title>
-  <link rel="stylesheet" href="style/main.css" />
-  <style>
-    .puzzle-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 20px 0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game 2 - Reorder Code</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <style>
+        .puzzle-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
 
-    .code-piece {
-      background: #0f0;
-      color: #000;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-family: monospace;
-      cursor: grab;
-    }
+        .code-piece {
+            background: #0f0;
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            cursor: grab;
+        }
 
-    #output {
-      margin-top: 20px;
-      font-family: monospace;
-      font-size: 18px;
-      color: #0f0;
-    }
-  </style>
+        #output {
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 18px;
+            color: #0f0;
+        }
+    </style>
 </head>
+
 <body class="terminal">
-  <div class="container">
-    <h1>> Game 2: Reorder the Code 🧠</h1>
-    <p>> Drag the pieces into the correct order and press Run</p>
+    <div class="container">
+        <h1>> Game 2: Reorder the Code 🧠</h1>
+        <p>> Drag the pieces into the correct order and press Run</p>
 
-    <div class="puzzle-container" id="codePieces" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div class="puzzle-container" id="codePieces"></div>
 
-    <button onclick="runCode()">Run ▶️</button>
-    <p id="output"></p>
-  </div>
+        <button onclick="runCode()">Run ▶️</button>
+        <p id="output"></p>
+    </div>
 
-  <script>
-    const correctOrder = ['printf', '(', '"Hello,', 'Sanchan! 🎉"', ')', ';'];
+    <script>
+        const correctOrder = ['printf', '(', '"Hello,', 'Sanchan! 🎉"', ')', ';'];
+        const shuffled = [...correctOrder].sort(() => Math.random() - 0.5);
+        const container = document.getElementById("codePieces");
 
-    const pieces = [...correctOrder].sort(() => Math.random() - 0.5); // shuffle
-    const container = document.getElementById("codePieces");
+        // Generate draggable elements
+        shuffled.forEach((text, index) => {
+            const div = document.createElement("div");
+            div.className = "code-piece";
+            div.draggable = true;
+            div.innerText = text;
+            div.id = `piece-${index}`;
+            div.addEventListener("dragstart", dragStart);
+            div.addEventListener("dragover", dragOver);
+            div.addEventListener("drop", drop);
+            container.appendChild(div);
+        });
 
-    pieces.forEach((text, index) => {
-      const div = document.createElement("div");
-      div.className = "code-piece";
-      div.draggable = true;
-      div.id = `piece-${index}`;
-      div.innerText = text;
-      div.addEventListener("dragstart", drag);
-      container.appendChild(div);
-    });
+        let draggedElement = null;
 
-    function drag(event) {
-      event.dataTransfer.setData("text", event.target.id);
-    }
+        function dragStart(event) {
+            draggedElement = event.target;
+        }
 
-    function allowDrop(event) {
-      event.preventDefault();
-      const draggedId = event.dataTransfer.getData("text");
-      const target = event.target;
+        function dragOver(event) {
+            event.preventDefault();
+        }
 
-      const dragged = document.getElementById(draggedId);
-      if (target.classList.contains("code-piece")) {
-        // Swap dragged and target
-        const draggedText = dragged.innerText;
-        dragged.innerText = target.innerText;
-        target.innerText = draggedText;
-      }
-    }
+        function drop(event) {
+            event.preventDefault();
+            const target = event.target;
 
-    function runCode() {
-      const current = Array.from(document.getElementsByClassName("code-piece")).map(div => div.innerText);
-      const output = document.getElementById("output");
+            if (draggedElement && target.classList.contains("code-piece") && draggedElement !== target) {
+                const draggedIndex = Array.from(container.children).indexOf(draggedElement);
+                const targetIndex = Array.from(container.children).indexOf(target);
 
-      if (JSON.stringify(current) === JSON.stringify(correctOrder)) {
-        output.innerText = 'Output: Hello, Sanchan! 🎉';
-        setTimeout(() => {
-          window.location.href = "game3.html"; // Next game
-        }, 2000);
-      } else {
-        output.innerText = 'Error: Output mismatch. Try again.';
-      }
-    }
-  </script>
+                if (draggedIndex < targetIndex) {
+                    container.insertBefore(draggedElement, target.nextSibling);
+                } else {
+                    container.insertBefore(draggedElement, target);
+                }
+            }
+        }
+
+        function runCode() {
+            const currentOrder = Array.from(container.children).map(div => div.innerText);
+            const output = document.getElementById("output");
+
+            if (JSON.stringify(currentOrder) === JSON.stringify(correctOrder)) {
+                output.innerText = 'Output: Hello, Sanchan! 🎉';
+                setTimeout(() => {
+                    window.location.href = "game3.html";
+                }, 2000);
+            } else {
+                output.innerText = 'Error: Output mismatch. Try again.';
+            }
+        }
+    </script>
+
 </body>
+
 </html>
